@@ -10,6 +10,8 @@
 #ifndef LITERATOR_ITERATOR_FACADE_HPP_
 #define LITERATOR_ITERATOR_FACADE_HPP_
 
+#include <cstddef>
+
 #include "internal/iterator_facade_helpers.hpp"
 
 namespace literator {
