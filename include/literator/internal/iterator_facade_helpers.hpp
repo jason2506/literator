@@ -81,7 +81,7 @@ class postfix_increment_proxy {
 
  public:  // Public Method(s)
     explicit postfix_increment_proxy(Iterator const &it)
-        : val_(*it) { /* empty */ }
+        : val_(*it) { /* do nothing */ }
 
     value_type &operator*() const {
         return this->val_;
@@ -102,7 +102,7 @@ class writable_postfix_increment_proxy {
 
  public:  // Public Method(s)
     explicit writable_postfix_increment_proxy(Iterator const &it)
-        : val_(*it), it_(it) { /* empty */ }
+        : val_(*it), it_(it) { /* do nothing */ }
 
     writable_postfix_increment_proxy const &operator*() const {
         return *this;
@@ -168,7 +168,7 @@ template <typename Reference, typename Pointer>
 struct operator_arrow_dispatch {
     struct proxy {
         explicit proxy(Reference const &x)
-            : ref_(x) { /* empty */ }
+            : ref_(x) { /* do nothing */ }
 
         Reference* operator->() { return std::addressof(ref_); }
         operator Reference*()   { return std::addressof(ref_); }
@@ -203,7 +203,7 @@ class operator_brackets_proxy {
 
  public:  // Public Method(s)
     explicit operator_brackets_proxy(Iterator const &it)
-        : it_(it) { /* empty */ }
+        : it_(it) { /* do nothing */ }
 
     operator reference() const {
         return *it_;
