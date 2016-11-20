@@ -32,19 +32,19 @@ class filter_iterator : public internal::filter_iterator_base<Predicate, Iterato
 
  private:  // Private Method(s)
     void increment() {
-        ++(this->base());
+        ++(this->base_reference());
         satisfy_predicate();
     }
 
     void decrement() {
-        while (!this->pred_(*--(this->base()))) {
+        while (!pred_(*--(this->base_reference()))) {
             // do nothing
         }
     }
 
     void satisfy_predicate() {
-        while (this->base() != end_ && !this->pred_(*(this->base()))) {
-            ++(this->base());
+        while (this->base_reference() != end_ && !pred_(*(this->base_reference()))) {
+            ++(this->base_reference());
         }
     }
 

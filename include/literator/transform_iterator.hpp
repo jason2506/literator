@@ -41,7 +41,7 @@ class transform_iterator : public internal::transform_iterator_base<
 
  private:  // Private Method(s)
     typename super_t::reference dereference() const {
-        return f_(*this->base());
+        return f_(*this->base_reference());
     }
 
  private:  // Private Properties(s)

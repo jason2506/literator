@@ -47,7 +47,8 @@ class iterator_adaptor : public internal::iterator_adaptor_base<
     base_type const &base() const { return it_; }
 
  protected:  // Protected Method(s)
-    base_type &base() { return it_; }
+    base_type &base_reference() { return it_; }
+    base_type const &base_reference() const { return it_; }
 
  protected:  // Protected Type(s)
     using super_t = typename internal::iterator_adaptor_base<
@@ -65,12 +66,12 @@ class iterator_adaptor : public internal::iterator_adaptor_base<
     template <typename I, typename B, typename V, typename C, typename R, typename D>
     typename super_t::difference_type
     distance_to(iterator_adaptor<I, B, V, C, R, D> const &it) const {
-        return it.base() - it_;
+        return it.base_reference() - it_;
     }
 
     template <typename I, typename B, typename V, typename C, typename R, typename D>
     bool equal(iterator_adaptor<I, B, V, C, R, D> const &it) const {
-        return it.base() == it_;
+        return it.base_reference() == it_;
     }
 
  private:  // Private Properties(s)
