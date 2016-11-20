@@ -67,8 +67,8 @@ struct iterator_facade_types {
     using value_type = typename std::remove_const<Value>::type;
     using pointer = typename std::conditional<
         iterator_writability_disabled<Value, Reference>::value,
-        std::add_pointer<value_type const>,
-        std::add_pointer<value_type>
+        typename std::add_pointer<value_type const>::type,
+        typename std::add_pointer<value_type>::type
     >::type;
 };  // struct iterator_facade_types<V, R>
 
