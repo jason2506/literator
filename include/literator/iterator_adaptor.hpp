@@ -66,12 +66,12 @@ class iterator_adaptor : public internal::iterator_adaptor_base<
     template <typename I, typename B, typename V, typename C, typename R, typename D>
     typename super_t::difference_type
     distance_to(iterator_adaptor<I, B, V, C, R, D> const &it) const {
-        return it.base_reference() - it_;
+        return it.base() - it_;
     }
 
     template <typename I, typename B, typename V, typename C, typename R, typename D>
     bool equal(iterator_adaptor<I, B, V, C, R, D> const &it) const {
-        return it.base_reference() == it_;
+        return it.base() == it_;
     }
 
  private:  // Private Properties(s)
