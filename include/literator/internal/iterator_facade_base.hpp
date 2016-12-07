@@ -21,6 +21,44 @@ namespace literator {
 namespace internal {
 
 /************************************************
+ * Declaration: type is_interoperable<A, B>
+ ************************************************/
+
+template <typename A, typename B>
+using is_interoperable = std::integral_constant<
+    bool,
+    std::is_convertible<A, B>::value || std::is_convertible<B, A>::value
+>;
+
+/************************************************
+ * Declaration: type enable_if_interoperable<A, B, T>
+ ************************************************/
+
+template <typename A, typename B, typename T>
+using enable_if_interoperable = std::enable_if<
+    is_interoperable<A, B>::value,
+    T
+>;
+
+/************************************************
+ * Declaration: type enable_if_interoperable_and_random_access_iterator<A, B, T>
+ ************************************************/
+
+template <typename A, typename B, typename T>
+using enable_if_interoperable_and_random_access_iterator = std::enable_if<
+    is_interoperable<A, B>::value
+        && std::is_convertible<
+            typename std::iterator_traits<A>::iterator_category,
+            std::random_access_iterator_tag
+        >::value
+        && std::is_convertible<
+            typename std::iterator_traits<B>::iterator_category,
+            std::random_access_iterator_tag
+        >::value,
+    T
+>;
+
+/************************************************
  * Declaration: struct is_reference_to_const<R>
  ************************************************/
 

@@ -48,7 +48,8 @@ template <
     typename I1, typename T1, typename C1, typename R1, typename D1,
     typename I2, typename T2, typename C2, typename R2, typename D2
 >
-inline bool operator==(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
+inline typename internal::enable_if_interoperable<I1, I2, bool>::type
+operator==(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
                        iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::equal(
         *static_cast<I1 const *>(&lhs),
@@ -59,7 +60,8 @@ template <
     typename I1, typename T1, typename C1, typename R1, typename D1,
     typename I2, typename T2, typename C2, typename R2, typename D2
 >
-inline bool operator!=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
+inline typename internal::enable_if_interoperable<I1, I2, bool>::type
+operator!=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
                        iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return !iterator_core_access::equal(
         *static_cast<I1 const *>(&lhs),
@@ -70,7 +72,8 @@ template <
     typename I1, typename T1, typename C1, typename R1, typename D1,
     typename I2, typename T2, typename C2, typename R2, typename D2
 >
-inline bool operator<(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
+inline typename internal::enable_if_interoperable_and_random_access_iterator<I1, I2, bool>::type
+operator<(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
                       iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::distance_from(
         *static_cast<I1 const *>(&lhs),
@@ -81,7 +84,8 @@ template <
     typename I1, typename T1, typename C1, typename R1, typename D1,
     typename I2, typename T2, typename C2, typename R2, typename D2
 >
-inline bool operator>(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
+inline typename internal::enable_if_interoperable_and_random_access_iterator<I1, I2, bool>::type
+operator>(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
                       iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::distance_from(
         *static_cast<I1 const *>(&lhs),
@@ -92,7 +96,8 @@ template <
     typename I1, typename T1, typename C1, typename R1, typename D1,
     typename I2, typename T2, typename C2, typename R2, typename D2
 >
-inline bool operator<=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
+inline typename internal::enable_if_interoperable_and_random_access_iterator<I1, I2, bool>::type
+operator<=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
                        iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::distance_from(
         *static_cast<I1 const *>(&lhs),
@@ -103,7 +108,8 @@ template <
     typename I1, typename T1, typename C1, typename R1, typename D1,
     typename I2, typename T2, typename C2, typename R2, typename D2
 >
-inline bool operator>=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
+inline typename internal::enable_if_interoperable_and_random_access_iterator<I1, I2, bool>::type
+operator>=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
                        iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::distance_from(
         *static_cast<I1 const *>(&lhs),
