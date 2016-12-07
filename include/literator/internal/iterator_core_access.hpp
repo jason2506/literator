@@ -38,7 +38,7 @@ struct iterator_core_access {
     template <typename Facade1, typename Facade2>
     static typename Facade1::difference_type
     distance_from(Facade1 const &f1, Facade2 const &f2) {
-        return f1.distance_to(f2);
+        return -f1.distance_to(f2);
     }
 
     template <typename Facade1, typename Facade2>
