@@ -21,32 +21,31 @@ namespace literator {
 namespace internal {
 
 /************************************************
- * Declaration: type is_interoperable<A, B>
+ * Declaration: bool is_interoperable_v<A, B>
  ************************************************/
 
 template <typename A, typename B>
-using is_interoperable = std::integral_constant<
-    bool,
-    std::is_convertible<A, B>::value || std::is_convertible<B, A>::value
->;
+constexpr bool is_interoperable_v
+    = std::is_convertible<A, B>::value
+        || std::is_convertible<B, A>::value;
 
 /************************************************
- * Declaration: type enable_if_interoperable<A, B, T>
+ * Declaration: type enable_if_interoperable_t<A, B, T>
  ************************************************/
 
 template <typename A, typename B, typename T>
-using enable_if_interoperable = std::enable_if<
-    is_interoperable<A, B>::value,
+using enable_if_interoperable_t = typename std::enable_if<
+    is_interoperable_v<A, B>,
     T
->;
+>::type;
 
 /************************************************
- * Declaration: type enable_if_interoperable_and_random_access_iterator<A, B, T>
+ * Declaration: type enable_if_interoperable_and_random_access_iterator_t<A, B, T>
  ************************************************/
 
 template <typename A, typename B, typename T>
-using enable_if_interoperable_and_random_access_iterator = std::enable_if<
-    is_interoperable<A, B>::value
+using enable_if_interoperable_and_random_access_iterator_t = typename std::enable_if<
+    is_interoperable_v<A, B>
         && std::is_convertible<
             typename std::iterator_traits<A>::iterator_category,
             std::random_access_iterator_tag
@@ -56,45 +55,37 @@ using enable_if_interoperable_and_random_access_iterator = std::enable_if<
             std::random_access_iterator_tag
         >::value,
     T
->;
+>::type;
 
 /************************************************
- * Declaration: struct is_reference_to_const<R>
+ * Declaration: bool is_reference_to_const_v<R>
  ************************************************/
 
 template <typename Reference>
-struct is_reference_to_const {
-    static constexpr bool value = false;
-};  // struct is_reference_to_const<R>
+constexpr bool is_reference_to_const_v = false;
 
 template <typename T>
-struct is_reference_to_const<T const &> {
-    static constexpr bool value = true;
-};  // struct is_reference_to_const<T const &>
+constexpr bool is_reference_to_const_v<T const &> = true;
 
 /************************************************
- * Declaration: struct iterator_writability_disabled<V, R>
+ * Declaration: bool iterator_writability_disabled_v<V, R>
  ************************************************/
 
 template <typename Value, typename Reference>
-struct iterator_writability_disabled {
-    static constexpr bool value =
-        std::is_const<Value>::value ||
-        std::is_const<Reference>::value ||
-        is_reference_to_const<Reference>::value;
-};  // struct iterator_writability_disabled<V, R>
+constexpr bool iterator_writability_disabled_v
+    = std::is_const<Value>::value
+        || std::is_const<Reference>::value
+        || is_reference_to_const_v<Reference>;
 
 /************************************************
- * Declaration: struct is_non_proxy_reference<R, V>
+ * Declaration: bool is_non_proxy_reference_v<R, V>
  ************************************************/
 
 template <typename Reference, typename Value>
-struct is_non_proxy_reference {
-    static constexpr bool value = std::is_convertible<
-        typename std::remove_reference<Reference>::type const volatile *,
-        Value const volatile *
-    >::value;
-};  // struct is_non_proxy_reference<R, V>
+constexpr bool is_non_proxy_reference_v = std::is_convertible<
+    typename std::remove_reference<Reference>::type const volatile *,
+    Value const volatile *
+>::value;
 
 /************************************************
  * Declaration: struct iterator_facade_types<V, R>
@@ -104,7 +95,7 @@ template <typename Value, typename Reference>
 struct iterator_facade_types {
     using value_type = typename std::remove_const<Value>::type;
     using pointer = typename std::conditional<
-        iterator_writability_disabled<Value, Reference>::value,
+        iterator_writability_disabled_v<Value, Reference>,
         typename std::add_pointer<value_type const>::type,
         typename std::add_pointer<value_type>::type
     >::type;
@@ -174,31 +165,29 @@ class writable_postfix_increment_proxy {
 };  // class writable_postfix_increment_proxy<I>
 
 /************************************************
- * Declaration: struct postfix_increment_result<I, V, R, C>
+ * Declaration: type postfix_increment_result_t<I, V, R, C>
  ************************************************/
 
 template <typename Iterator, typename Value, typename Reference, typename Category>
-struct postfix_increment_result {
-    using type = typename std::conditional<
-        std::is_convertible<
-            Reference,
-            typename std::add_lvalue_reference<Value const>::type &&
-        >::value
-        &&
-        !std::is_convertible<
-            Category,
-            std::forward_iterator_tag
-        >::value,
+using postfix_increment_result_t = typename std::conditional<
+    std::is_convertible<
+        Reference,
+        typename std::add_lvalue_reference<Value const>::type &&
+    >::value
+    &&
+    !std::is_convertible<
+        Category,
+        std::forward_iterator_tag
+    >::value,
 
-        typename std::conditional<
-            is_non_proxy_reference<Reference, Value>::value,
-            postfix_increment_proxy<Iterator>,
-            writable_postfix_increment_proxy<Iterator>
-        >::type,
+    typename std::conditional<
+        is_non_proxy_reference_v<Reference, Value>,
+        postfix_increment_proxy<Iterator>,
+        writable_postfix_increment_proxy<Iterator>
+    >::type,
 
-        Iterator
-    >::type;
-};  // struct postfix_increment_result<I, V, R, C>
+    Iterator
+>::type;
 
 /************************************************
  * Declaration: struct operator_arrow_dispatch<R, P>
@@ -274,7 +263,7 @@ template <typename Iterator, typename Value, typename Reference>
 struct operator_brackets_dispatch<
     Iterator, Value, Reference,
     typename std::enable_if<
-        iterator_writability_disabled<Value, Reference>::value
+        iterator_writability_disabled_v<Value, Reference>
             && std::is_pod<Value>::value
     >::type
 > {
@@ -315,15 +304,15 @@ class iterator_facade_base<Derived, Value, Category, Reference, Difference, fals
         typename associated_types::pointer
     >;
 
-    using postfix_increment_result = typename internal::postfix_increment_result<
+    using postfix_increment_result_t = internal::postfix_increment_result_t<
         Derived,
         Value,
         Reference,
         Category
-    >::type;
+    >;
 
  public:  // Public Type(s)
-    using value_type = typename std::remove_const<Value>::type;
+    using value_type = typename associated_types::value_type;
     using iterator_category = Category;
     using reference = Reference;
     using pointer = typename operator_arrow_dispatch::result_type;
@@ -336,7 +325,7 @@ class iterator_facade_base<Derived, Value, Category, Reference, Difference, fals
     }
 
     Derived operator++(int) {
-        postfix_increment_result it(this->derived);
+        postfix_increment_result_t it(this->derived);
         ++(*this);
         return it;
     }
