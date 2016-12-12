@@ -324,8 +324,8 @@ class iterator_facade_base<Derived, Value, Category, Reference, Difference, fals
         return this->derived();
     }
 
-    Derived operator++(int) {
-        postfix_increment_result_t it(this->derived);
+    postfix_increment_result_t operator++(int) {
+        postfix_increment_result_t it(this->derived());
         ++(*this);
         return it;
     }
