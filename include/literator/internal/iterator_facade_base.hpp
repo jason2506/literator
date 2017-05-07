@@ -172,7 +172,7 @@ template <typename Iterator, typename Value, typename Reference, typename Catego
 using postfix_increment_result_t = typename std::conditional<
     std::is_convertible<
         Reference,
-        typename std::add_lvalue_reference<Value const>::type &&
+        typename std::add_lvalue_reference<Value const>::type
     >::value
     &&
     !std::is_convertible<
