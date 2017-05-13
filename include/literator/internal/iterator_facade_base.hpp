@@ -190,22 +190,27 @@ using postfix_increment_result_t = typename std::conditional<
 >::type;
 
 /************************************************
+ * Declaration: struct operator_arrow_dispatch_proxy<R>
+ ************************************************/
+
+template <typename Reference>
+struct operator_arrow_dispatch_proxy {
+    explicit operator_arrow_dispatch_proxy(Reference const &x)
+        : ref_(x) { /* do nothing */ }
+
+    Reference* operator->() { return std::addressof(ref_); }
+    operator Reference*()   { return std::addressof(ref_); }
+
+    Reference ref_;
+};  // struct operator_arrow_dispatch_proxy<R>
+
+/************************************************
  * Declaration: struct operator_arrow_dispatch<R, P>
  ************************************************/
 
 template <typename Reference, typename Pointer>
 struct operator_arrow_dispatch {
-    struct proxy {
-        explicit proxy(Reference const &x)
-            : ref_(x) { /* do nothing */ }
-
-        Reference* operator->() { return std::addressof(ref_); }
-        operator Reference*()   { return std::addressof(ref_); }
-
-        Reference ref_;
-    };  // struct operator_arrow_dispatch<R, P>::proxy
-
-    using result_type = proxy;
+    using result_type = operator_arrow_dispatch_proxy<Reference>;
     static result_type apply(Reference const &x) {
         return result_type(x);
     }
