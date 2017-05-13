@@ -115,7 +115,7 @@ class postfix_increment_proxy {
         : val_(*it) { /* do nothing */ }
 
     value_type &operator*() const {
-        return this->val_;
+        return val_;
     }
 
  private:  // Private Property(ies)
@@ -145,13 +145,13 @@ class writable_postfix_increment_proxy {
 
     template <typename T>
     T const &operator=(T const &x) const {
-        *(this->it_) = x;
+        *it_ = x;
         return x;
     }
 
     template <typename T>  // NOLINTNEXTLINE(runtime/references)
     T &operator=(T &x) const {
-        *(this->it_) = x;
+        *it_ = x;
         return x;
     }
 
