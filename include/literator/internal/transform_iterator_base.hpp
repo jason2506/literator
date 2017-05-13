@@ -30,12 +30,12 @@ namespace internal {
  ************************************************/
 
 template <typename Transform, typename Iterator, typename Reference, typename Value>
-using transform_iterator_reference = typename get_with_default<
+using transform_iterator_reference = get_with_default_t<
     Reference,
     typename std::result_of<
         const Transform(typename std::iterator_traits<Iterator>::reference)
     >::type
->::type;
+>;
 
 /************************************************
  * Declaration: class transform_iterator_base<F, I, R, V>
@@ -45,12 +45,12 @@ template <typename Transform, typename Iterator, typename Reference, typename Va
 using transform_iterator_base = iterator_adaptor<
     transform_iterator<Transform, Iterator, Reference, Value>,
     Iterator,
-    typename get_with_default<
+    get_with_default_t<
         Value,
         std::remove_reference<
             transform_iterator_reference<Transform, Iterator, Reference, Value>
         >
-    >::type,
+    >,
     use_default,
     transform_iterator_reference<Transform, Iterator, Reference, Value>
 >;

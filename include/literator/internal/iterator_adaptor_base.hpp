@@ -34,26 +34,10 @@ template <
 >
 using iterator_adaptor_base = iterator_facade<
     Derived,
-
-    typename get_with_default<
-        Value,
-        typename std::iterator_traits<Base>::value_type
-    >::type,
-
-    typename get_with_default<
-        Category,
-        typename std::iterator_traits<Base>::iterator_category
-    >::type,
-
-    typename get_with_default<
-        Reference,
-        typename std::iterator_traits<Base>::reference
-    >::type,
-
-    typename get_with_default<
-        Difference,
-        typename std::iterator_traits<Base>::difference_type
-    >::type
+    get_with_default_t<Value, typename std::iterator_traits<Base>::value_type>,
+    get_with_default_t<Category, typename std::iterator_traits<Base>::iterator_category>,
+    get_with_default_t<Reference, typename std::iterator_traits<Base>::reference>,
+    get_with_default_t<Difference, typename std::iterator_traits<Base>::difference_type>
 >;
 
 }  // namespace internal

@@ -23,17 +23,15 @@ namespace internal {
 struct use_default;  // without definition
 
 /************************************************
- * Declaration: struct get_with_default<T, D>
+ * Declaration: type get_with_default<T, D>
  ************************************************/
 
 template <typename T, typename Default>
-struct get_with_default {
-    using type = typename std::conditional<
-        std::is_same<T, use_default>::value,
-        Default,
-        T
-    >::type;
-};  // struct get_with_default<T, D>
+using get_with_default_t = typename std::conditional<
+    std::is_same<T, use_default>::value,
+    Default,
+    T
+>;
 
 }  // namespace internal
 
