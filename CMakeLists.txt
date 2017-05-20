@@ -5,6 +5,12 @@ project(literator
     LANGUAGES CXX
 )
 
+option(ENABLE_CONAN "Enable conan package manager" OFF)
+if(ENABLE_CONAN)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup()
+endif(ENABLE_CONAN)
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -25,5 +31,10 @@ target_include_directories(${PROJECT_NAME}
 install(TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}Targets
 )
+
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif(BUILD_TESTING)
 
 include(cmake/literatorPackage.cmake)

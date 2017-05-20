@@ -11,12 +11,19 @@ class LiteratorConan(ConanFile):
 
     settings = ('os', 'compiler', 'build_type', 'arch')
     generators = ('cmake', 'txt', 'env')
+    default_options = (
+        'gtest:shared=False',
+    )
 
     exports = (
         'CMakeLists.txt',
         'cmake/*.cmake',
         'include/*.hpp',
     )
+
+    def requirements(self):
+        if self.scope.dev and self.scope.build_tests:
+            self.requires('gtest/1.8.0@lasote/stable', private=True)
 
     def build(self):
         extra_opts = []
