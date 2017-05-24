@@ -323,6 +323,12 @@ class iterator_facade_base<Derived, Value, Category, Reference, Difference, fals
     using pointer = typename operator_arrow_dispatch::result_type;
     using difference_type = Difference;
 
+    static_assert(
+        !std::is_convertible<iterator_category, std::forward_iterator_tag>::value
+            || std::is_same<reference, value_type &>::value
+            || std::is_same<reference, value_type const &>::value,
+        "'reference' of forward iterator must be reference to 'value_type'");
+
  public:  // Public Method(s)
     Derived &operator++() {
         iterator_core_access::increment(this->derived());
