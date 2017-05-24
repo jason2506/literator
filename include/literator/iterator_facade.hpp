@@ -50,7 +50,7 @@ template <
 >
 inline internal::enable_if_interoperable_t<I1, I2, bool>
 operator==(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
-                       iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
+           iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::equal(
         *static_cast<I1 const *>(&lhs),
         *static_cast<I2 const *>(&rhs));
@@ -62,7 +62,7 @@ template <
 >
 inline internal::enable_if_interoperable_t<I1, I2, bool>
 operator!=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
-                       iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
+           iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return !iterator_core_access::equal(
         *static_cast<I1 const *>(&lhs),
         *static_cast<I2 const *>(&rhs));
@@ -74,7 +74,7 @@ template <
 >
 inline internal::enable_if_interoperable_and_random_access_iterator_t<I1, I2, bool>
 operator<(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
-                      iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
+          iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::distance_from(
         *static_cast<I1 const *>(&lhs),
         *static_cast<I2 const *>(&rhs)) < 0;
@@ -86,7 +86,7 @@ template <
 >
 inline internal::enable_if_interoperable_and_random_access_iterator_t<I1, I2, bool>
 operator>(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
-                      iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
+          iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::distance_from(
         *static_cast<I1 const *>(&lhs),
         *static_cast<I2 const *>(&rhs)) > 0;
@@ -98,7 +98,7 @@ template <
 >
 inline internal::enable_if_interoperable_and_random_access_iterator_t<I1, I2, bool>
 operator<=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
-                       iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
+           iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::distance_from(
         *static_cast<I1 const *>(&lhs),
         *static_cast<I2 const *>(&rhs)) <= 0;
@@ -110,7 +110,7 @@ template <
 >
 inline internal::enable_if_interoperable_and_random_access_iterator_t<I1, I2, bool>
 operator>=(iterator_facade<I1, T1, C1, R1, D1> const &lhs,
-                       iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
+           iterator_facade<I2, T2, C2, R2, D2> const &rhs) {
     return iterator_core_access::distance_from(
         *static_cast<I1 const *>(&lhs),
         *static_cast<I2 const *>(&rhs)) >= 0;
