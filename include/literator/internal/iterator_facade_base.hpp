@@ -279,6 +279,13 @@ struct operator_brackets_dispatch<
 };  // struct operator_brackets_dispatch<I, V, R>
 
 /************************************************
+ * Declaration: type difference_type<I1, I2>
+ ************************************************/
+
+template <typename I1, typename I2>
+using difference_type = typename I1::difference_type;
+
+/************************************************
  * Declaration: class iterator_facade_base<I, T, C, R, D, BI, RAI>
  ************************************************/
 
